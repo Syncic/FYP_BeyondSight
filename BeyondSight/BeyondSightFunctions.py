@@ -123,3 +123,16 @@ def calculate_distance(det_index : int,
     # return  None if no valid case was found
     else:
         return 'undefined'
+    
+    
+def AngleClassification(angleL: int, angleR: int) -> str:
+    if angleL >= -10 and angleR <= 10:
+        classification = "front center"
+    elif angleL >= 10 and angleR >= 10:
+        classification = "front right"
+    elif angleL <= 10 and angleR <= 10:
+        classification = "front left"
+    else:
+        classification = "direction unclear"
+        
+    return classification
