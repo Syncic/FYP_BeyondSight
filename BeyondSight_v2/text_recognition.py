@@ -1,5 +1,6 @@
 import cv2 as cv
 import pytesseract
+from time import sleep
 import os
 from tts import speak
 
@@ -12,6 +13,11 @@ class TextRecognizer:
     def recognize_text(self, img):
         img_resized = cv.resize(img, self.size)
         config = ('-l eng --oem 3 --psm 11')
+        text = pytesseract.image_to_string(img)
+        if text:
+            print('Detected text: ', text)
+            speak(f"Detected text: {text}")
+        
         text_boxes = pytesseract.image_to_boxes(img_resized, config=config)
         for box in text_boxes.splitlines():
             box = box.split(' ')
@@ -29,8 +35,8 @@ class TextRecognizer:
                     location = 'center'
                 speak(f"{text} located at {location}")
 
-    def recognize_saved_picture(self):
-        image = cv.imread('picture.jpg')
+    def recognize_saved_picture(self, image):
+        # image = cv.imread('picture.jpg')
         text = pytesseract.image_to_string(image)
         if text:
             print('Detected text: ', text)
@@ -38,5 +44,4 @@ class TextRecognizer:
         else:
             speak('No text detected')
 
-        os.remove("picture.jpg")
 

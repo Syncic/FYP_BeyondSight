@@ -5,7 +5,7 @@ from tts import speak
 from utils import get_center, get_location
 
 class ObjectDetector:
-    def __init__(self, size=(640, 360)):
+    def __init__(self, size=(640, 480)):
         self.size = size
         self.yolo = YOLO("yolov8n.pt")
         self.previous_objects = set()

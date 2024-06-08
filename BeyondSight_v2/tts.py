@@ -7,9 +7,9 @@ def Startup():
     engine.setProperty('rate', newVoiceRate)
     engine.setProperty('voice','en-uk-rp')
 
+Startup()
+
 def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-
-Startup()

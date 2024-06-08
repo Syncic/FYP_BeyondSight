@@ -2,11 +2,9 @@ import cv2 as cv
 from time import sleep
 
 class Camera:
-    def __init__(self, size=(320, 240), fps=30):
+    def __init__(self, size=(320, 240)):
         self.cap = cv.VideoCapture(0)
         self.size = size
-        self.fps = fps
-        self.n = 0
 
     def get_frame(self):
         ret, img = self.cap.read()

@@ -16,6 +16,7 @@ class AudioHandler:
         self.text_client = OpenAI(api_key='sk-proj-OiNGYm5inInJnuQjM72bT3BlbkFJvYUETrw8VX52fOti4ZaY')
 
     def start_recording(self):
+        speak("recording...")
         print("Recording... Press 'z' again to stop.")
         self.recording = True
 
