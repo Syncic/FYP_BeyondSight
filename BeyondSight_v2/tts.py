@@ -2,6 +2,10 @@ import pyttsx3
 
 engine = pyttsx3.init()
 
+# CONSTANTS
+SLOW_VOICE_RATE = 180
+FAST_VOICE_RATE = 200
+
 def Startup():
     
     engine.setProperty('voice','en-uk-rp')

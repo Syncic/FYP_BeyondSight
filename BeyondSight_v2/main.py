@@ -1,10 +1,12 @@
 import cv2 as cv
 from time import sleep
 from tts import speak
+import tts
 from camera import Camera
 from audio import AudioHandler
 from object_detection import ObjectDetector
 from text_recognition import TextRecognizer
+
 
 # Initialize modules
 camera = Camera()
@@ -12,16 +14,16 @@ audio_handler = AudioHandler()
 object_detector = ObjectDetector()
 text_recognizer = TextRecognizer()
 
-speak("Hello! I am Tecto, your Navigational Aid", 150)
+speak("Hello! I am Tecto, your Navigational Aid", tts.SLOW_VOICE_RATE)
 sleep(1)
-speak("System: Booting UP!", 150)
+speak("System: Booting UP!", tts.SLOW_VOICE_RATE)
 
 frame_count = 0
 
 while True:
     ret, img = camera.get_frame()
     if not ret:
-        speak("video input failed... Exiting...", 150)
+        speak("video input failed... Exiting...", tts.SLOW_VOICE_RATE)
         break
 
     frame_count += 1
