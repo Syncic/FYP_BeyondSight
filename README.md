@@ -34,8 +34,8 @@ Ensure you have the following dependencies installed:
 
 ### Clone the Repository
 ```sh
-git clone https://github.com/yourusername/navigational-aid-system.git
-cd navigational-aid-system
+git clone https://github.com/Syncic/FYP_BeyondSight.git
+cd FYP_BeyondSight
 ```
 
 ### Install Dependencies
