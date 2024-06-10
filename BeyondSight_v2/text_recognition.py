@@ -5,16 +5,19 @@ import os
 from tts import speak
 
 class TextRecognizer:
-    def __init__(self, size=(320, 240)):
+    def __init__(self, size=(640, 480)):
         self.size = size
         self.text_roi = (0, 0, size[0], size[1])
-        self.keywords = ["fire", "enter", "exit", "department", "laboratory"]
+        self.keywords = [
+            "fire", "enter", "exit", "department", "laboratory", "emergency", "assembly", "lab",
+            "dept.", "university", "engineering", "ned", "telecommunications", "telecom", "telecommunication" 
+            ]
 
     def recognize_text(self, img):
         img_resized = cv.resize(img, self.size)
         config = ('-l eng --oem 3 --psm 11')
         text = pytesseract.image_to_string(img)
-        if text:
+        if text.lower() in self.keywords:
             print('Detected text: ', text)
             speak(f"Detected text: {text}")
         
@@ -36,7 +39,6 @@ class TextRecognizer:
                 speak(f"{text} located at {location}")
 
     def recognize_saved_picture(self, image):
-        # image = cv.imread('picture.jpg')
         text = pytesseract.image_to_string(image)
         if text:
             print('Detected text: ', text)

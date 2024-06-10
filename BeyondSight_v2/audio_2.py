@@ -1,3 +1,5 @@
+# audio.py
+
 import wave
 import pyaudio
 from openai import OpenAI
@@ -10,19 +12,36 @@ class AudioHandler:
         self.channels = 1
         self.rate = 44100
         self.p = pyaudio.PyAudio()
-        self.stream = self.p.open(format=self.format, channels=self.channels, rate=self.rate, input=True, frames_per_buffer=self.chunk)
+        self.stream = None
         self.recording = False
         self.frames = []
         self.text_client = OpenAI(api_key='sk-proj-OiNGYm5inInJnuQjM72bT3BlbkFJvYUETrw8VX52fOti4ZaY')
 
     def start_recording(self):
+        if self.recording:
+            return  # Prevent multiple recordings at the same time
+
         speak("recording...")
         print("Recording... Press 'z' again to stop.")
         self.recording = True
+        self.frames = []  # Reset frames list
+        self.stream = self.p.open(format=self.format, channels=self.channels, rate=self.rate, input=True, frames_per_buffer=self.chunk)
+        
+        while self.recording:
+            try:
+                data = self.stream.read(self.chunk)
+                self.frames.append(data)
+            except Exception as e:
+                print(f"Error while recording: {e}")
+                self.recording = False
+                self.cleanup()
+                break
 
     def stop_recording(self):
+        if not self.recording:
+            return  # No recording to stop
+
         print("Stopping recording")
-        speak("processing...")
         self.recording = False
         self.save_recording()
 
@@ -54,6 +73,7 @@ class AudioHandler:
         speak(generated_text)
 
     def cleanup(self):
-        self.stream.stop_stream()
-        self.stream.close()
+        if self.stream:
+            self.stream.stop_stream()
+            self.stream.close()
         self.p.terminate()

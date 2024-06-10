@@ -3,13 +3,14 @@ import pyttsx3
 engine = pyttsx3.init()
 
 def Startup():
-    newVoiceRate = 200
-    engine.setProperty('rate', newVoiceRate)
+    
     engine.setProperty('voice','en-uk-rp')
 
 Startup()
 
-def speak(text):
+def speak(text, voiceRate = 200):
+    newVoiceRate = voiceRate
+    engine.setProperty('rate', newVoiceRate)
     engine.say(text)
     engine.runAndWait()
 
