@@ -9,7 +9,7 @@ Thank you for considering contributing to Tecto! We appreciate your help and sup
 If you find a bug, please report it by following these steps:
 
 1. **Search for existing issues** to ensure the bug hasn't already been reported.
-2. **Open a new issue** on our [GitHub Issues page](https://github.com/your-repo/tecto-navigational-aid/issues).
+2. **Open a new issue** on our [GitHub Issues page](https://github.com/Syncic/FYP_BeyondSight.git/issues).
 3. Include as much detail as possible:
     - A descriptive title and clear summary.
     - Steps to reproduce the bug.
@@ -33,7 +33,7 @@ We welcome your pull requests! Here’s how to create one:
 1. **Fork the repository.**
 2. **Clone your fork:**
    ```sh
-   git clone https://github.com/your-username/tecto-navigational-aid.git
+   git clone https://github.com/Syncic/FYP_BeyondSight.git
    ```
 3. **Create a new branch:**
    ```sh
