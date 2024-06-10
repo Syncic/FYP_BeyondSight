@@ -24,7 +24,7 @@ This project is a comprehensive Navigational Aid System that integrates various 
 
 ### Prerequisites
 Ensure you have the following dependencies installed:
-- Python 3.7 or higher
+- Python 3.8 or higher
 - OpenCV
 - pyttsx3
 - pyaudio
