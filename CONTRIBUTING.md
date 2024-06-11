@@ -1,4 +1,4 @@
-# Contributing to Tecto - Your Navigational Aid
+# Contributing to Beyond Sight - Navigational Aid for Visually Impaired
 
 Thank you for considering contributing to Tecto! We appreciate your help and support in making this project better.
 
