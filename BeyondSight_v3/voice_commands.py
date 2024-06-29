@@ -9,70 +9,82 @@ class Commands:
         self.text_client = OpenAI(api_key='sk-proj-OiNGYm5inInJnuQjM72bT3BlbkFJvYUETrw8VX52fOti4ZaY')
         
         # General Commands
-        self.commandKeywords = ['gpt', 'volume', 'time', 'date']
+        self.command_keywords = ['gpt', 'volume', 'time', 'date']
+        self.volume_levels = {
+            'max': 1.0,
+            'full': 1.0,
+            'maximum': 1.0,
+            'half': 0.5,
+            'mid': 0.5,
+            'min': 0.15,
+            'low': 0.15,
+            'minimum': 0.15,
+            'high': 0.85,
+            'off': 0.0
+        }
     
     
-    def ExtractCommand(self, extractedText):
+    def extract_command(self, extracted_text):
+        complete_text = extracted_text.lower()
+        print(complete_text)
+        
         try:
-            completeText = extractedText.lower()
-            print(completeText)
-            words = completeText.split()
-            command = words[0]
-            label = words[1]
-            print(f"{command}, {label}")
-            
-            if command not in self.commandKeywords:
-                tts.speak("invalid command, please read commands documentation or try again...", tts.SLOW_VOICE_RATE)
-            
-            else:
-                if command == 'volume':
-                    self.VolumeAdjust(label=label)
-                elif command == 'gpt':
-                    self.GptCall(text=completeText)
-                elif command == 'time':
-                    self.TimeCall(label=label)
-                elif command == 'date':
-                    self.DateCall(label=label)
-        except:
-            tts.speak("unknown error, please try again...")
+            command, label = complete_text.split(maxsplit=1)
+        except ValueError:
+            tts.speak("Invalid command, please read commands documentation or try again...", tts.SLOW_VOICE_RATE)
+            return
+
+        print(f"{command}, {label}")
         
-    
-    def VolumeAdjust(self, label : str):
-        if label == 'max' or label == 'full' or label == 'maximum':
-            tts.engine.setProperty('volume', 1.0)
-        elif label == 'half' or label == 'mid':
-            tts.engine.setProperty('volume', 0.5)
-        elif label == 'min' or label == 'low' or label == 'minimum':
-            tts.engine.setProperty('volume', 0.15)
-        elif label == 'high':
-            tts.engine.setProperty('volume', 0.85)
-        elif label == 'off':
-            tts.engine.setProperty('volume', 0.0)
+        if command not in self.command_keywords:
+            tts.speak("Invalid command, please read commands documentation or try again...", tts.SLOW_VOICE_RATE)
+            return
+        
+        if command == 'volume':
+            self.volume_adjust(label)
+        elif command == 'gpt':
+            self.gpt_call(complete_text)
+        elif command == 'time':
+            self.time_call(label)
+        elif command == 'date':
+            self.date_call(label)
         else:
-            pass
-        
+            tts.speak("Unknown error, please try again...")
+
     
-    def GptCall(self, text):
+    def volume_adjust(self, label: str):
+        volume = self.volume_levels.get(label)
+        if volume is not None:
+            tts.engine.setProperty('volume', volume)
+        else:
+            tts.speak("Invalid volume level, please try again...", tts.SLOW_VOICE_RATE)
+
+    
+    def gpt_call(self, text):
         try:
             response = self.text_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": text}]
             )
-            
-            generated_text = response.choices[0].message.content
+            generated_text = response.choices[0].message['content']
             tts.speak(generated_text)
-        except:
-            tts.speak('some unknown error occured, please try again...', tts.SLOW_VOICE_RATE)
+        except Exception as e:
+            print(f"Error: {e}")
+            tts.speak("Some unknown error occurred, please try again...", tts.SLOW_VOICE_RATE)
     
-    def TimeCall(self, label):
-        if label == 'now' or label == 'current':
-            tts.speak(time.strftime('%I:%M %p'),tts.SLOW_VOICE_RATE)
+    def time_call(self, label):
+        if label in ['now', 'current']:
+            tts.speak(time.strftime('%I:%M %p'), tts.SLOW_VOICE_RATE)
         else:
-            tts.speak('invalid command, please try again...')
+            tts.speak("Invalid command, please try again...", tts.SLOW_VOICE_RATE)
             
     
-    def DateCall(self, label):
-        if label == 'now' or label == 'current' or label == 'today':
-            tts.speak(time.strftime('%A, %d %m %Y'),tts.SLOW_VOICE_RATE)
+    def date_call(self, label):
+        if label in ['now', 'current', 'today']:
+            tts.speak(time.strftime('%A, %d %m %Y'), tts.SLOW_VOICE_RATE)
         else:
-            tts.speak('invalid command, please try again...')
+            tts.speak("Invalid command, please try again...", tts.SLOW_VOICE_RATE)
+
+# Example usage:
+# commands = Commands()
+# commands.extract_command("gpt tell me a joke")
